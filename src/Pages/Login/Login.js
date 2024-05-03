@@ -3,24 +3,7 @@ import {useState} from 'react'
 const Login = () => {
   const [ email, setEmail ] = useState("")
   const [ password, setPassword ] = useState("")
-  //const [ isLogged, setIsLogged ] = useState(true)
-  //const [ showLoginAlert, setShowLoginAlert ] = useState(<div></div>)
-
- { /*  const checkEmail = () => {
-    const emails = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/ ;
-    return emails.test(email)
-  }
-  // validação de senha 
-  const checkPassword = () => {
-    const dividedPass = password.split('')
-    if (dividedPass.length >= 6) {
-        
-        return true
-    } else {
-        return false
-    }
-} */ }
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     

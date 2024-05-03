@@ -55,40 +55,7 @@ const checkCpf = () => {
   if(/^(\d)\1{10}$/.test(limpaCpf)) {
     return false
   }
-  { /*
-  let sum = 0;
-  let remainder;
-
-  for (let i = 1; i <= 9; i++) {
-    sum += parseInt(limpaCpf.substring(i - 1, i), 10) * (11 - i);
-  }
-
-  remainder = (sum * 10) % 11;
-
-  if ((remainder === 10) || (remainder === 11)) {
-    remainder = 0;
-  }
-
-  if (remainder !== parseInt(limpaCpf.substring(9, 10), 10)) {
-    return false; // CPF inválido se o dígito verificador não corresponder
-  }
-
-  sum = 0;
-
-  for (let i = 1; i <= 10; i++) {
-    sum += parseInt(limpaCpf.substring(i - 1, i), 10) * (12 - i);
-  }
-
-  remainder = (sum * 10) % 11;
-
-  if ((remainder === 10) || (remainder === 11)) {
-    remainder = 0;
-  }
-
-  if (remainder !== parseInt(limpaCpf.substring(10, 11), 10)) {
-    return false; // CPF inválido se o dígito verificador não corresponder
-  }*/}
-
+  
   return true
 }
 
