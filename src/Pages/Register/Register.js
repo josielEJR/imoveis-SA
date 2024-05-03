@@ -97,26 +97,7 @@ const handleSubmit = async (e) => {
     console.log("Usuário logado:", user)
   } 
 
-  if (formIsValid) { 
-    try {
-      const response = await fetch('/usarios', {
-        method:'POST',
-        headers: {
-          'Content-Type' : 'application/json'
-        },
-        body: JSON.stringify(user)
-      })
-      if (!response.ok) {
-        throw new Error('Erro ao cadastrar usuário')
-      }
-
-      const data = await response.json()
-      console.log('Usuário cadastrado:', data)
-      setIsLogged(true)
-  } catch (error) {
-      setError("Erro ao cadastrar usuário")
-  }
-  }else {
+  else {
     setIsLogged(false)
   }
 
