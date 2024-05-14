@@ -3,17 +3,38 @@ import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const [ email, setEmail ] = useState("")
-  const [ password, setPassword ] = useState("")
+  const [ senha, setSenha ] = useState("")
+  const [error, setError ] = useState("")
 
   const navigate = useNavigate()
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
     
-    console.log("Form submitted!")
-    return navigate()
-}
+    try {
+      const response = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, senha })
+      })
+      if (!response.ok) {
+        throw new Error('Erro ao fazer login')
+      }
+
+      const data = await response.json()
+      console.log('Login bem-sucedido', data)
+      return navigate("/Home")
+    }catch (error) {
+        setError("Usuario não cadastrado ")
+        console.error('Erro ao fazer login:', error)
+    }
+  } 
+    
+ 
 
 
   return (
@@ -58,9 +79,9 @@ const Login = () => {
               placeholder='Senha'
               className='apparance-none block w-full py-1 px-2 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 focus:border-gray-500 roudend focus: outline-none'
               required
-              value={password}
+              value={senha}
               onChange={(e) => {
-                setPassword(e.target.value)
+                setSenha(e.target.value)
                 //checkPassword()
               }}
               />
@@ -73,6 +94,7 @@ const Login = () => {
                 display: email === '' ? 'none' :'inline-block'
               }}
               >Login</button>
+              {error && <p className="text-3x1 font-semibold text-red-600">{error}</p>}
             </div>
           </form>
         </div>

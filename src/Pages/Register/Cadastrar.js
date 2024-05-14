@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-const Register = () => {
-  const [displayName, setDisplayName] = useState ("")
+const Cadastrar = () => {
+  const [nome, setNome] = useState ("")
   const [email, setEmail ] = useState ("")
-  const [password, setPassword] = useState ("")
-  const [confirmPassword, setConfirmPassword] = useState ("")
+  const [senha, setSenha] = useState ("")
+  //const [confirmPassword, setConfirmPassword] = useState ("")
   const [cpf, setCpf] =useState ("")
   const [error, setError] = useState ("")
   const [ isLogged, setIsLogged ] = useState(true)
@@ -25,10 +25,10 @@ const Register = () => {
 
   // validação de senha 
   const checkPassword = () => {
-    const hasMinLength = password.length >= 6
+    const hasMinLength = senha.length >= 6
     //const hasUpperCase = /[A-Z]/.test(password)
     //const hasLowerCase = /[a-z]/.test(password)
-    const hasNumber = /\d/.test(password)
+    const hasNumber = /\d/.test(senha)
     //const hasSymbol = /[~!@#$%^&*-_+=|<>?/:;{}()[\]]/g.test(password)
 
     const isValidPassword = hasMinLength && hasNumber
@@ -67,43 +67,58 @@ const handleSubmit = async (e) => {
 
   // objeto para guarda as informações das variáveis
   const user = {
+    nome,
     email,
-    displayName,
-    password,
-    cpf
+    cpf,
+    senha
+    
   }
   if (!checkEmail() ) {
       setError("email invalido")
       formIsValid = false   
   }
   if (!checkPassword() ) {
-    setError("Senha  invalida")
+    setError("Senha invalida. A senha deve possuir no minimo 6 digitos")
     formIsValid = false 
   }
   if (!checkCpf() ) {
     setError("CPF invalido")
     formIsValid = false 
   }
-  if (password !== confirmPassword ) {
-    setError("senha diferentes")
-    formIsValid = false 
-  }
-  if (displayName === ''){
+  if (nome === ''){
     setError("digite seu nome ")
     formIsValid = false
   }
   if (formIsValid) {
     setIsLogged(true);
     console.log("Usuário logado:", user)
-  } 
-
-  else {
-    setIsLogged(false)
   }
 
-  console.log("isLogged:", isLogged)
-  return navigate("/")
+  if (formIsValid) {
+    try {
+      const response = await fetch('http://localhost:3000/cadastrar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao cadastrar usuário');
+      }
+
+      const data = await response.json();
+      console.log("Usuário cadastrado:", data);
+      return navigate("/Home")
+    } catch (error) {
+      console.error("Erro ao cadastrar usuário:", error.message);
+      setError("Erro ao cadastrar usuário");
+      setIsLogged(false);
+    }
+  }
 }
+
   return (
     <div className="min-h-screen bg-white flex">
       <div className="hidden lg:block relative w-0 flex-1 bg-gray-900">
@@ -130,8 +145,8 @@ const handleSubmit = async (e) => {
                 type="text" 
                 placeholder="Nome " 
                 className="apparance-none block w-full py-1 px-2 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 focus:border-gray-500 roudend focus: outline-none "
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
                 />
                 {/*<input 
                 type="text" 
@@ -167,14 +182,14 @@ const handleSubmit = async (e) => {
                 placeholder="Senha"
                 className="apparance-none block w-full py-1 px-2 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 focus:border-gray-500 roudend focus: outline-none "
                 required
-                value={password}
+                value={senha}
                 onChange={(e) => {
-                  setPassword(e.target.value)
+                  setSenha(e.target.value)
                   checkPassword()
                 }}
                 />
               </div>
-              <div className="mt-5">
+              {/*<div className="mt-5">
                 <input 
                 type="password"
                 placeholder="Corfime a senha"
@@ -186,7 +201,7 @@ const handleSubmit = async (e) => {
                   checkPassword()
                 }}
                 />
-              </div>
+              </div> */}
               <div className="mt-5">
                 <button className=" inline-block w-full py-3 px-5 lenading-none text-white bg-red-600 hover:bg-red-900 font-semibold rounded shadow"> Cadastre-se </button>
                 {error && <p className="text-3x1 font-semibold text-red-600">{error}</p>}
@@ -202,4 +217,4 @@ const handleSubmit = async (e) => {
   )
 }
 
-export default Register
+export default Cadastrar

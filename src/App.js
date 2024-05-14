@@ -1,12 +1,12 @@
-
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter , Routes, Route } from 'react-router-dom'
+//components
+import NavBar from './components/NavBar.js';
 
 // Pages
 import Login from './Pages/Login/Login.js';
-import Register from './Pages/Register/Register.js'
+import Cadastrar from './Pages/Register/Cadastrar.js'
 import Home from './Pages/Home/Home.js'
-import NavBar from './components/NavBar.js';
-
+import Clientes from './Pages/Clientes/Clientes.js';
 
 const App = () => {
   return (
@@ -14,9 +14,11 @@ const App = () => {
       <BrowserRouter>
       <NavBar/>
         <Routes>
-          <Route path='/' element={<Home/>}/>
+          <Route path='/Home' element={<Home/>}/>
           <Route path='/Login' element={<Login />}/>
-          <Route path='/register' element={<Register/>}/>
+          <Route path='/cadastrar' element={<Cadastrar/>}/>
+          <Route path='/' element={<Clientes/>}/>
+          <Route path='*' element={<Cadastrar/>}/>
         </Routes>
       </BrowserRouter>
     </div>
